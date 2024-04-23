@@ -1,0 +1,5 @@
+WIFI_SSID = "xxxxxxxxxxxx"
+WIFI_PASSWORD = "xxxxxxxxxx"
+
+WEATHER_KEY="ctpe2272nswh94og"
+LOCATION = "SHENZHEN"
