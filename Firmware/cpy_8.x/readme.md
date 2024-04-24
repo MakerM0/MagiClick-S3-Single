@@ -1,0 +1,1 @@
+double click the reset button ,   .uf2 file is used to update the circuitpython version
