@@ -1,6 +1,6 @@
 # MagiClick-S3-Single
-MagiClick version 2.3
-![0](Documents/1.png)
+version 2.3
+![0](Documents/6.png)
 
 
 
@@ -13,6 +13,10 @@ MagiClick version 2.3
 ![5](Documents/5.png)
 
 
+
+## PCB
+
+[MakerM0/MagiClick-esp32s3: A single-button keyboard, based on ESP32-S3 (github.com)](https://github.com/MakerM0/MagiClick-esp32s3)
 
 ## 3D STLs
 
