@@ -117,7 +117,7 @@ class Pomodoro:
 pomodoro = Pomodoro(WORK,SHORTBREAK)
 
 
-display.show(None)
+display.root_group=None
 main_group = displayio.Group()
 
 # label
@@ -149,7 +149,7 @@ progress_bar = HorizontalProgressBar(
 
 # Append progress_bar to the splash group
 main_group.append(progress_bar)
-display.show(main_group)
+display.root_group =main_group
 playwave('go.wav')
 
 t_old=0

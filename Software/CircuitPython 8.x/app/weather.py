@@ -24,7 +24,7 @@ import adafruit_requests
 import adafruit_imageload
 from adafruit_display_text import bitmap_label
 
-display.show(None)
+display.root_group=displayio.CIRCUITPYTHON_TERMINAL
 TERMINAL_HEIGHT=display.height+20
 display.root_group.scale = 1
     
@@ -35,7 +35,7 @@ supervisor.reset_terminal(display.width,TERMINAL_HEIGHT)
 display.root_group[0].y = 0
 
 
-display.show(display.root_group)
+ 
 
 
 print('         Weather  ')
@@ -120,7 +120,7 @@ main_group = displayio.Group()
 main_group.append(group)
 main_group.append(text_area)
 # Show the main group on the display
-display.show(main_group)
+display.root_group= main_group
 
 # Define function to get the appropriate weather icon
 def get_weather_condition_icon(weather_condition):

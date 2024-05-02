@@ -88,7 +88,7 @@ def main():
     
     group=displayio.Group(scale=1)
     group.append(label)
-    display.show(group)
+    display.root_group =group
     
     
     while True:

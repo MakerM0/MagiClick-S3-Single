@@ -14,7 +14,7 @@ import audiocore
 import struct
 import alarm
 
-display.show(None)
+display.root_group=None
 main_group = displayio.Group()
 
 def getCount():
@@ -37,7 +37,7 @@ IMG_FRAME=3 #gif frames
 
  
 
-display.show(None) 
+display.root_group=None 
 main_group = displayio.Group()
 
 
@@ -102,7 +102,7 @@ cntlabel.text='{}'.format(getCount())
 # main_group.append(background)
 main_group.append(img_group)
 main_group.append(cntlabel)
-display.show(main_group)
+display.root_group =main_group 
  
 print(gc.mem_free())
 gc.collect()
@@ -223,7 +223,7 @@ def main():
 main() 
  
  
-display.show(None)
+display.root_group=None
 
 
 print('end')   

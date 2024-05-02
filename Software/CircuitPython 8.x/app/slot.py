@@ -120,7 +120,7 @@ mask.append(rect2)
 maingroup.append(g)
 maingroup.append(mask)
 
-display.show(maingroup)
+display.root_group =maingroup
 
 
 '''
@@ -172,7 +172,7 @@ while True:
         returnMainPage()    
     
 display.auto_refresh = True
-display.show(None)
+display.root_group=None
 gc.collect()
 print('end')
 pass

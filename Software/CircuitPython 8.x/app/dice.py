@@ -66,7 +66,7 @@ class Dice:
         pass
         
         
-display.show(None) 
+display.root_group=None 
  
 
 
@@ -89,7 +89,7 @@ tile_grid.y = display.height//2-50
 
 
 splash.append(tile_grid)
-display.show(splash)
+display.root_group =splash
 
    
         

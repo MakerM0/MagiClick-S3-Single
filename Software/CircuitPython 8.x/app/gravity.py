@@ -244,7 +244,7 @@ palette[7] = 0xffffff
 grid = displayio.TileGrid(bitmap,pixel_shader=palette)
 group = displayio.Group(scale =4)
 group.append(grid)
-display.show(group)
+display.root_group =group
 
 
 

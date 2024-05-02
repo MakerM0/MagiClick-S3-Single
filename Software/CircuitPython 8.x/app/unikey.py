@@ -81,9 +81,9 @@ index=0
 font =terminalio.FONT
 # font = bitmap_font.load_font("fonts/LeagueSpartan-Bold-16.bdf")
 
-display.show(None)
+display.root_group=None
 main_group = displayio.Group()
-display.show(main_group)
+display.root_group =main_group
 # label 
 keylabel = label.Label(font, color=0x00ff00, scale=4)
 keylabel.anchor_point = (0.5, 0.5)
@@ -134,7 +134,7 @@ def draw_img_or_text():
 
 draw_img_or_text()
 
-display.show(main_group)
+display.root_group =main_group
 
 
 

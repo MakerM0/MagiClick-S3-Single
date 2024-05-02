@@ -7,10 +7,10 @@ from adafruit_simple_text_display import SimpleTextDisplay
 
 from adafruit_display_text import label
 
-display.show(None)
+display.root_group=None
 main_group = displayio.Group()
 
-display.show(main_group)
+display.root_group =main_group
 
 
 # label
@@ -101,15 +101,7 @@ class Stopwatch:
 
 stopwatch = Stopwatch()
 
-# display.show(None)
-# 
-# display.show(display.root_group)
-# 
-# display.root_group.scale = 1
-# supervisor.reset_terminal(display.width,display.height)
-# 
-# print('       STOPWATCH   ')
-# print(' \r\n'* 5)
+
 cnt=0
 while True:
     key = getkey()

@@ -25,7 +25,7 @@ class Dice:
         pass
         
         
-display.show(None) 
+display.root_group=None 
 main_group = displayio.Group()
 
 # sprit_sheet,palette = adafruit_imageload.load('/images/gongde.bmp',bitmap = displayio.Bitmap,palette = displayio.Palette)
@@ -48,7 +48,7 @@ dice_label.text='0'
 
 # main_group.append(spirite)
 main_group.append(dice_label)
-display.show(main_group)        
+display.root_group =main_group    
         
 palette=[0xff00ff,0xff0000,0x0000ff,0x00ff00,0x00ffff]
 

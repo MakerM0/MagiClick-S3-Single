@@ -71,7 +71,7 @@ rect = Rect(0, 0, 64, 64, fill=0xffffff)
 splash.append(rect)
 
 splash.append(face)
-display.show(splash)
+display.root_group =splash
 display.refresh()
 
 

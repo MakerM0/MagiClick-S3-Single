@@ -34,7 +34,7 @@ import adafruit_ntp
  
 
 
-display.show(None)
+display.root_group=displayio.CIRCUITPYTHON_TERMINAL
 
 
 TERMINAL_HEIGHT=display.height+20
@@ -47,7 +47,6 @@ supervisor.reset_terminal(display.width,TERMINAL_HEIGHT)
 display.root_group[0].y = 0
 
 
-display.show(display.root_group)
 
 print('         CLOCK  ')
 print(' ')
@@ -174,7 +173,7 @@ pool=None
 requests = None
 gc.collect()
  
-display.show(None)
+display.root_group=None
 main_group = displayio.Group()
 
 
@@ -248,7 +247,7 @@ week_label[week_id].color = WEEK_COLOR_NOW
 # print(time_now.tm_wday)
 # print(week_id)
 
-display.show(main_group)
+display.root_group = main_group
 
 # sayTimeCN(2, 2) 
 sayTimeCN(time_now.tm_hour, time_now.tm_min) 
@@ -319,7 +318,7 @@ while True:
          
 
 gc.collect()         
-display.show(None)        
+display.root_group=None        
 pass
 
 

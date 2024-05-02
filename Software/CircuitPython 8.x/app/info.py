@@ -40,7 +40,7 @@ text_lines = display_text(title=" Sys Info")
 text_lines[1].text="CPY   : " + os.uname().version
 text_lines[2].text="CPU   : " + os.uname().sysname
 text_lines[3].text="Freq  : " + str(microcontroller.cpu.frequency/1000000)+ 'MHz'
-text_lines[4].text="HW ver: " + "2.0.0"
+text_lines[4].text="HW ver: " + "2.3.0"
 text_lines[5].text="SW ver: " + "0.3.1"
 
  
