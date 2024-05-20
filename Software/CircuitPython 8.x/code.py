@@ -111,12 +111,13 @@ palette.make_transparent(0)
 tile_grid = displayio.TileGrid(image,pixel_shader = palette)
 tile_grid.x = display.width // 2 - tile_grid.tile_width // 2
 tile_grid.y = 0+5
+try:
+    fontFile = "fonts/wenquanyi_13px.pcf"
+#     fontFile = "fonts/Fontquan-XinYiGuanHeiTi-Regular.pcf"
 
-fontFile = "fonts/wenquanyi_13px.pcf"
-# fontFile = "fonts/Fontquan-XinYiGuanHeiTi-Regular.pcf"
-
-font = bitmap_font.load_font(fontFile, Bitmap)
-# font = terminalio.FONT
+    font = bitmap_font.load_font(fontFile, Bitmap)
+except:
+    font = terminalio.FONT
 
 # label
 filelabel = label.Label(font,color = 0x67E1F6,scale=1)
