@@ -1,0 +1,1 @@
+[AmusementClub/WenQuanYi-Bitmap-Song-TTF: 矢量 TTF 格式的文泉驿点阵宋体，覆盖 GB18030 的中文点阵字体/像素字体。 (github.com)](https://github.com/AmusementClub/WenQuanYi-Bitmap-Song-TTF)

@@ -18,14 +18,18 @@ import os
 from adafruit_display_shapes.rect import Rect
 from adafruit_display_text import label
 import adafruit_imageload
-
+from adafruit_bitmap_font import bitmap_font
+from displayio import Bitmap
 
 analog_pin = analogio.AnalogIn(board.BAT)
-
+ 
 def get_voltage(pin):
     return (pin.value * 3.3) / 65535 *2
-
-vbat = get_voltage(analog_pin)
+vbat=0.0
+for i in range(10):    
+    vbat += get_voltage(analog_pin)
+    
+vbat = vbat/10
 
 class Launch:
     def __init__(self):
@@ -108,19 +112,30 @@ tile_grid = displayio.TileGrid(image,pixel_shader = palette)
 tile_grid.x = display.width // 2 - tile_grid.tile_width // 2
 tile_grid.y = 0+5
 
+fontFile = "fonts/wenquanyi_13px.pcf"
+# fontFile = "fonts/Fontquan-XinYiGuanHeiTi-Regular.pcf"
+
+font = bitmap_font.load_font(fontFile, Bitmap)
+# font = terminalio.FONT
+
 # label
-filelabel = label.Label(terminalio.FONT,color = 0x67E1F6,scale=2)
+filelabel = label.Label(font,color = 0x67E1F6,scale=1)
 filelabel.anchor_point = (0.5,0.0)
-filelabel.anchored_position = (DISPLAY_WIDTH / 2, 100+0)
+filelabel.anchored_position = (DISPLAY_WIDTH / 2, 100+5)
 # filelabel.x = 10
 # filelabel.y = 100
 filelabel.text = launch.file_list[launch.index].split('.')[0]
+
 
 # vbat label
 vbatlabel = label.Label(terminalio.FONT,color = 0x777777,scale=1)
 vbatlabel.anchor_point = (1.0,0.0)
 vbatlabel.anchored_position = (DISPLAY_WIDTH-5, 0)
-vbatlabel.text = '{:.1f} V'.format(vbat )
+if(vbat>=4.35):
+    vbatlabel.text ='USB'
+else:
+    vbatlabel.text = '{:.1f} V'.format(vbat )
+ 
 
 displaygroup.append(background)
 displaygroup.append(tile_grid)
@@ -131,15 +146,21 @@ display.show(displaygroup)
 
 import bitmaptools 
 
+now = time.monotonic()
+old= now
+
 gc.collect()
 print(gc.mem_free())
 while True:
     time.sleep(0.1)
-    vbat = get_voltage(analog_pin)
-    if(vbat>=4.35):
-        vbatlabel.text ='USB'
-    else:
-        vbatlabel.text = '{:.1f} V'.format(vbat )
+    now = time.monotonic()
+    if now>old+1 :
+        old = now
+        vbat = get_voltage(analog_pin)
+        if(vbat>=4.35):
+            vbatlabel.text ='USB'
+        else:
+            vbatlabel.text = '{:.1f} V'.format(vbat )
     
     key = getkey()
     if key==1:
