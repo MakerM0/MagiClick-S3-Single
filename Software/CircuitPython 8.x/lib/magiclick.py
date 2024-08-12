@@ -161,7 +161,7 @@ def getkey():
             pass
     return -1
 
-def returnMainPage():
+def exit():
     display.show(None)
     lcd_reset.value = False
     supervisor.set_next_code_file("code.py")

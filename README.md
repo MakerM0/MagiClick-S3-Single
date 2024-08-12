@@ -1,6 +1,6 @@
-# MagiClick-S3-Single
-version 2.3
-![0](Documents/6.png)
+# MagiClick-S3
+version 2.3c
+![0](Documents/7.png)
 
 
 
@@ -22,9 +22,12 @@ version 2.3
 
 https://makerworld.com/zh/models/440612#profileId-346290
 
+[https://makerworld.com/zh/models/584488#profileId-505582](https://makerworld.com/zh/models/584488#profileId-505582)
 
 
+![1](Documents/8.png)
 
+![1](Documents/9.png)
 
 ![1](Documents/2.png)
 

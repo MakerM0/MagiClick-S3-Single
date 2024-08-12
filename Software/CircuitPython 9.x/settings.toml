@@ -1,0 +1,21 @@
+# wifi
+WIFI_SSID = "xxxxxx"
+WIFI_PASSWORD = "xxxxxxx"
+
+
+
+# time
+TIMEZONE = 8
+
+
+# Go to this link and register for a free account. 
+# https://home.openweathermap.org/users/sign_up
+openweather_token="xxxxxxxxxxxxxx"
+
+LOCATION ="Manhattan"
+
+# weather_cn  
+# Go to this link and register for a free account. 
+# https://www.seniverse.com/signup
+WEATHER_KEY_CN="xxxxxx"
+LOCATION_CN = "HANGZHOU"
