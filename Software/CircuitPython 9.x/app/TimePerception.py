@@ -62,6 +62,9 @@ while True:
         microcontroller.cpu.frequency=240000000
         mc.exit()
         
+    acceleration = mc.imu.acceleration
+    if acceleration[2] > 8.0:
+        mc.exit()
     
 
 
