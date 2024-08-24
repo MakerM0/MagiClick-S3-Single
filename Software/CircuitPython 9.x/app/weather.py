@@ -124,6 +124,7 @@ def get_weather():
 #         raise ValueError("SSID not found in environment variables")
      
     try:
+        wifi.radio.tx_power = 8.5
         wifi.radio.connect(wifi_ssid, wifi_password)
     except ConnectionError:
         print("Failed to connect to WiFi with provided credentials")

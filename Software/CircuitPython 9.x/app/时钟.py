@@ -136,6 +136,7 @@ wifi.radio.start_station()
 print(f"Connecting to \r\n[ {os.getenv('WIFI_SSID')} ]")
 while not wifi.radio.connected:
     try:
+        wifi.radio.tx_power = 8.5
         wifi.radio.connect(os.getenv("WIFI_SSID"), os.getenv("WIFI_PASSWORD"))
     except Exception as ex:
         print(ex)

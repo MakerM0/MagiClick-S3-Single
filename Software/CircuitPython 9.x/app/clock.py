@@ -187,6 +187,7 @@ def syncTime():
     info_label.text = 'Time \nSyncing..'
     mc.display.refresh()
     try:
+        wifi.radio.tx_power = 8.5
         wifi.radio.connect(wifi_ssid, wifi_password)
         print("my IP addr:", wifi.radio.ipv4_address)
     except ConnectionError:
