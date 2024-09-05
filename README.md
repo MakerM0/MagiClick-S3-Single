@@ -4,13 +4,19 @@ version 2.3c
 
 
 
+## Purchase
+
+[Product](https://www.elecrow.com/magiclick-open-source-multifunctional-programmable-mechanical.html)
+
+
+
 ## How to flash
 
 [flash download tool](https://www.espressif.com.cn/sites/default/files/tools/flash_download_tool_3.9.5_0.zip)
 
 ![4](Documents/4.png)
 
-![5](Documents/5.png)
+<img src="Documents/5.png" alt="5" style="zoom: 50%;" />
 
 
 
