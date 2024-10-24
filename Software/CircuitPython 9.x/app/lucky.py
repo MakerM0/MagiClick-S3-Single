@@ -40,8 +40,19 @@ main_group = displayio.Group()
 # spirite[0]=0
 # spirite.x = (display.width-IMG_WIDTH)//2
 
+from adafruit_bitmap_font import bitmap_font
+from displayio import Bitmap
+
+WRAP_WIDTH = 64
+
+
+
+# fontFile = "fonts/ChillRoundM-12.pcf"
+fontFile = "fonts/LibreBodoniv2002-Bold-27.bdf"
+
+font = bitmap_font.load_font(fontFile, Bitmap)
 # label
-dice_label = label.Label(terminalio.FONT,color = 0x00ff00,scale=9)
+dice_label = label.Label(font,color = 0x00ff00,scale=3)
 dice_label.anchor_point = (0.5,0.5)
 dice_label.anchored_position = (mc.display.width / 2, mc.display.height/2)
 dice_label.text='0'
@@ -54,7 +65,7 @@ palette=[0xff00ff,0xff0000,0x0000ff,0x00ff00,0x00ffff]
 
 mc.display.brightness=1.0
 
-TICK_DICE = 2.0
+TICK_DICE = 1.0
 
 # 
 async def draw(dice):
@@ -126,6 +137,7 @@ async def button_handle(dice):
 
 # 
 async def main():
+    mc.display.brightness=1.0 
     dice =Dice()
     draw_task = asyncio.create_task(draw(dice))
     imu_task = asyncio.create_task(imu_handle(dice))

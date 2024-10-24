@@ -12,7 +12,7 @@ slideshow = SlideShow(
     folder="/images/photo/",
     loop=True,
     order=PlayBackOrder.ALPHABETICAL,
-    dwell=4,
+    dwell=2,
 )
 
 slideshow.h_align = HorizontalAlignment.CENTER

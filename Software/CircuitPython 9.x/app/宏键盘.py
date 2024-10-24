@@ -44,12 +44,12 @@ else:
     MODIFIER = Keycode.COMMAND  # For Mac
 
 keymap=(
-    ('desktop_96px.png','Desktop',Keycode.FN,Keycode.F11) if MAC else ('desktop_96px.png','Desktop',Keycode.GUI,Keycode.D),
-    ('explorer_96px.png','explorer',Keycode.GUI,Keycode.E),
-    ('system_96px.png','Taskmgr',MODIFIER,Keycode.SHIFT,Keycode.ESCAPE),
-    (None,'Cut',MODIFIER,Keycode.X),
-    (None,'Copy',MODIFIER,Keycode.C),
-    (None,'Paste',MODIFIER,Keycode.V),    
+    ('desktop_96px.png','桌面',Keycode.FN,Keycode.F11) if MAC else ('desktop_96px.png','桌面',Keycode.GUI,Keycode.D),
+    ('explorer_96px.png','文件夹',Keycode.GUI,Keycode.E),
+    ('system_96px.png','任务管理器',MODIFIER,Keycode.SHIFT,Keycode.ESCAPE),
+    (None,'剪切',MODIFIER,Keycode.X),
+    (None,'复制',MODIFIER,Keycode.C),
+    (None,'粘贴',MODIFIER,Keycode.V),    
     ('f5_96px_.png','F5',Keycode.F5),
         )
 
@@ -79,14 +79,14 @@ mc.display.root_group = displayio.CIRCUITPYTHON_TERMINAL
 LEN = len(keymap)
 index=0
 
-font =terminalio.FONT
-# font = bitmap_font.load_font("fonts/LeagueSpartan-Bold-16.bdf")
+# font =terminalio.FONT
+font = bitmap_font.load_font("fonts/ChillRoundM-12.pcf")
 
 mc.display.root_group=None
 main_group = displayio.Group()
 mc.display.root_group =main_group
 # label 
-keylabel = label.Label(font, color=0x00ff00, scale=4)
+keylabel = label.Label(font, color=0x00ff00, scale=2)
 keylabel.anchor_point = (0.5, 0.5)
 keylabel.anchored_position = (mc.display.width // 2, mc.display.height // 2)
 keylabel.text = "" 
@@ -120,7 +120,7 @@ def draw_img_or_text():
             palette.make_transparent(0)
             tile_grid.bitmap = image
             tile_grid.pixel_shader = palette
-            keylabel.scale=2
+            keylabel.scale=1
             keylabel.anchored_position = (mc.display.width // 2, 105)
             keylabel.text =keymap[index][1]
         except Exception as e:
@@ -128,7 +128,7 @@ def draw_img_or_text():
             pass
     else:
         tile_grid.bitmap = transparent_img
-        keylabel.scale=4
+        keylabel.scale=2
         keylabel.anchored_position = (mc.display.width // 2,  mc.display.height // 2)
         keylabel.text = "\n".join(wrap_text_to_lines(keymap[index][1], 5))
         
@@ -183,6 +183,7 @@ while True:
     
     
     
+
 
 
 

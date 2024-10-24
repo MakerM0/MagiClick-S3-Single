@@ -1,4 +1,0 @@
-Adafruit CircuitPython 8.2.7-3-g2c25e82feb-dirty on 2023-11-03; MagiClick S3 N8 with ESP32S3
-Board ID:magiclick_s3_n8
-UID:4F21AF34414D
-boot.py output:

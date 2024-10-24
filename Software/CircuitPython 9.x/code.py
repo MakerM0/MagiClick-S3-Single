@@ -1,6 +1,10 @@
 '''
+v0.2.3
+    20240929
+    add png trans
+    add background
 v0.2.2
-    202411
+    202311
     fix func quit order
 v0.2.1
     20230925
@@ -11,7 +15,7 @@ v0.2.0
     The icons is from here  https://icons8.com/
 
 '''
-from magiclick import MagiClick
+
 import alarm
 import supervisor
 import os
@@ -22,12 +26,18 @@ from adafruit_bitmap_font import bitmap_font
 from displayio import Bitmap
 import displayio,terminalio,time,gc
 import microcontroller
+print(gc.mem_free())
+from magiclick import MagiClick
 microcontroller.cpu.frequency=240000000
-
+gc.collect()
 mc = MagiClick()
 mc.display.brightness=0.0
+
+
+F_VBAT = False 
+F_TEMPER = False 
  
- 
+print(gc.mem_free())
  
 vbat=0
 for i in range(10):    
@@ -60,25 +70,33 @@ class Launch:
 
     # draw func 
     def draw_img(self,label,filename):
+#         gc.collect()
         label.text = filename.split('.')[0]
-        try:
-            image, palette = adafruit_imageload.load('/app/icon/' + label.text + '_96px.png')
-                            
-            print(max(palette))
-            palette.make_transparent(0)
-            tile_grid.bitmap = image
-            tile_grid.pixel_shader = palette
-        except Exception as e:
-            image, palette = adafruit_imageload.load('/app/icon/icons8-app-96.png')
-            
-            print(max(palette))
-            palette.make_transparent(0)
-            tile_grid.bitmap = image
-            tile_grid.pixel_shader = palette
+        try :            
+            icongroup.pop()
+        except:
             pass
         
-        label.color =  int(sum(palette)/len(palette))
+
         
+        try:
+            image, palette = adafruit_imageload.load('/app/icon/' + label.text + '.png')
+            palette.make_transparent(0)
+            tile_grid = displayio.TileGrid(image,pixel_shader = palette)
+            tile_grid.x = (mc.display.width - tile_grid.tile_width) // 2
+            tile_grid.y = (mc.display.height  - tile_grid.tile_height) // 2 -10
+        except Exception as e:
+            image, palette = adafruit_imageload.load('/app/icon/icons8-app.png')
+            palette.make_transparent(0)
+            tile_grid = displayio.TileGrid(image,pixel_shader = palette)
+            tile_grid.x = (mc.display.width - tile_grid.tile_width) // 2
+            tile_grid.y = (mc.display.height  - tile_grid.tile_height) // 2 -10
+            pass
+        icongroup.append(tile_grid)
+#         label.color =  int(sum(palette)/(len(palette)-1))
+        label.color =  0xaaaaaa
+#         label.background_color =  0xaaaaaa
+#         gc.collect()
         return image
  
 launch = Launch()
@@ -102,28 +120,20 @@ mc.display.root_group = None
 displaygroup = displayio.Group()
 
 
-# create display
-background = Rect(0,0,DISPLAY_WIDTH-1,DISPLAY_HEIGHT-1,fill = 0x000000)
-image=None
-palette=None
-#image, 8bit png
 try:
-    image, palette = adafruit_imageload.load('/app/icon/{}_96px.png'.format(launch.file_list[launch.index].split('.')[0]))
-except Exception as e:
-    image, palette = adafruit_imageload.load('/app/icon/icons8-app-96.png')
-# Set the transparency index color to be hidden
-palette.make_transparent(0)
-
-tile_grid = displayio.TileGrid(image,pixel_shader = palette)
-tile_grid.x = (mc.display.width - tile_grid.tile_width) // 2
-tile_grid.y = (mc.display.height  - tile_grid.tile_height) // 2 -10
-try:
-    fontFile = "fonts/zhoufangrimingxie-10.pcf"
-#     fontFile = "fonts/Fontquan-XinYiGuanHeiTi-Regular.pcf"
-
+    fontFile = "fonts/ChillRoundM-12.pcf"
     font = bitmap_font.load_font(fontFile, Bitmap)
 except:
     font = terminalio.FONT
+
+# create display
+# 纯色
+# background = Rect(0,0,DISPLAY_WIDTH-1,DISPLAY_HEIGHT-1,fill = 0x000000)
+# 壁纸
+background = displayio.Group()
+odb = displayio.OnDiskBitmap('/images/photo/容器 14.bmp')
+face = displayio.TileGrid(odb, pixel_shader=odb.pixel_shader)
+background.append(face)
 
 # label
 filelabel = label.Label(font,color = 0x67E1F6,scale=1)
@@ -148,13 +158,21 @@ temperlabel.anchor_point = (0.0,0.0)
 temperlabel.anchored_position = (0, 0)
 temperlabel.text = f'{microcontroller.cpu.temperature}c'
 
+icongroup = displayio.Group()
+
+
 displaygroup.append(background)
-displaygroup.append(tile_grid)
+displaygroup.append(icongroup)
 displaygroup.append(filelabel)
-displaygroup.append(vbatlabel)
-# displaygroup.append(temperlabel)
+if F_VBAT:
+    displaygroup.append(vbatlabel)
+
+if F_TEMPER:
+    displaygroup.append(temperlabel)
 
 mc.display.root_group = displaygroup
+
+launch.draw_img(filelabel,launch.file_list[launch.index])
 
 
 mc.display.brightness=1.0
@@ -174,7 +192,7 @@ microcontroller.cpu.frequency=160000000
 while True:
     time.sleep(0.1)
     now = time.monotonic()
-    if now>old+1 :
+    if now>old+2 :
         old = now
         vbat = mc.get_batt()
         if(vbat>=4350):
@@ -182,6 +200,7 @@ while True:
         else:
             vbatlabel.text = f'{vbat} mV'
         temperlabel.text = f'{microcontroller.cpu.temperature}c'
+#         temperlabel.text = f'{gc.mem_free()}'
         mc.display.refresh()
          
     

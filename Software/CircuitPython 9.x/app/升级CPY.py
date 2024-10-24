@@ -11,7 +11,7 @@ def updateUF2():
     microcontroller.reset()
     
 from adafruit_bitmap_font import bitmap_font
-font_file = "fonts/zhoufangrimingxie-10.pcf"
+font_file = "fonts/ChillRoundM-12.pcf"
 font = bitmap_font.load_font(font_file)
     
 # left key

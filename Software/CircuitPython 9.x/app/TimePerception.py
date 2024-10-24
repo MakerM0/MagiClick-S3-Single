@@ -65,6 +65,7 @@ while True:
     acceleration = mc.imu.acceleration
     if acceleration[2] > 8.0:
         mc.exit()
+        
     
 
 

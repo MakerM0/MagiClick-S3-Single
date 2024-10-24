@@ -49,7 +49,7 @@ print(' ')
 print(f"Connecting to \r\n[ {os.getenv('WIFI_SSID')} ]")
 # Initialize Wi-Fi connection
 try:
-    wifi.radio.tx_power = 8.5
+    wifi.radio.tx_power=8.5
     wifi.radio.connect(
         os.getenv("WIFI_SSID"), os.getenv("WIFI_PASSWORD")
     )

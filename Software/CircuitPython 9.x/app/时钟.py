@@ -21,7 +21,7 @@ v0.2.0
 
 
 from magiclick import MagiClick
-import wifi
+
 import socketpool
 import os,displayio,supervisor,gc,terminalio
 import rtc
@@ -31,30 +31,8 @@ import board
 import audiobusio
 from adafruit_display_text import label
 import adafruit_ntp
- 
+
 mc = MagiClick()
-mc.display.brightness=1.0
-mc.display.root_group=displayio.CIRCUITPYTHON_TERMINAL
-
-
-TERMINAL_HEIGHT=mc.display.height+20
-mc.display.root_group.scale = 1
-    
-mc.display.root_group[0].hidden = False
-mc.display.root_group[1].hidden = True # logo
-mc.display.root_group[2].hidden = True # status bar
-supervisor.reset_terminal(mc.display.width,TERMINAL_HEIGHT)
-mc.display.root_group[0].y = 0
-
-
-
-print('         CLOCK  ')
-print(' ')
-print(' ')
-print(' ')
- 
-
- 
 
 spHour = ["12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
 spMinDec = ["0", "10", "20", "30", "40", "50"]
@@ -82,8 +60,7 @@ def playwave(filename):
      
     mc.audio_disable()
     pass
-# playwave('0.wav')
-# playwave('break.wav')
+
 
 def sayTimeCN(hour,  minutes):
     pm=False
@@ -119,93 +96,12 @@ def sayTimeCN(hour,  minutes):
  
 
 
-if  os.getenv("WIFI_SSID")=="":
-    print('Please set the wifi \r\ninformation in the \r\nsettings.toml file.')
-    print('Exit after 10 seconds')
-    time.sleep(1.0)
-    for i in range(10):
-#         print('... ')
-        time.sleep(1.0)   
-        
-    mc.exit()
-
-wifi.radio.enabled = True
-wifi.radio.start_station()
-
-# if not wifi.Radio.connected:
-print(f"Connecting to \r\n[ {os.getenv('WIFI_SSID')} ]")
-while not wifi.radio.connected:
-    try:
-        wifi.radio.tx_power = 8.5
-        wifi.radio.connect(os.getenv("WIFI_SSID"), os.getenv("WIFI_PASSWORD"))
-    except Exception as ex:
-        print(ex)
-    time.sleep(0.5)
-    print('.')
-
- 
-
-print(f"Connected to {os.getenv('WIFI_SSID')}")
-print(f"My IP address: {wifi.radio.ipv4_address}")
-
-
-TIME_API = "http://worldtimeapi.org/api/ip"
-
-
- 
-
-
-pool = socketpool.SocketPool(wifi.radio)
-ntp = adafruit_ntp.NTP(pool, tz_offset=8, server = "ntp1.aliyun.com")
-time.sleep(0.5)
-ntp = adafruit_ntp.NTP(pool, tz_offset=8, server = "ntp1.aliyun.com")
- 
-
-
-
-try: 
-    rtc.RTC().datetime = ntp.datetime
-except Exception as e:
-    print(e)
-    pass
  
 time_now = time.localtime()
-print(time_now)
- 
-wifi.radio.stop_station()
-wifi.radio.enabled=False
-pool=None
-requests = None
-gc.collect()
- 
+print(time_now) 
+
 mc.display.root_group=None
 main_group = displayio.Group()
-
-
-
-# import gifio
-#  
-# # display.auto_refresh = False
-# 
-# COL_OFFSET = 80  # The Feather TFT needs to have the display
-# ROW_OFFSET = 40  # offset by these values for direct writes 
-# 
-# 
-# odg = gifio.OnDiskGif('images/clock_1.gif')
-# start = time.monotonic()
-# next_delay = odg.next_frame() # Load the first frame
-# end = time.monotonic()
-# overhead = end - start
-# 
-# 
-# face = displayio.TileGrid(
-#     odg.bitmap,
-#     pixel_shader=displayio.ColorConverter(input_colorspace=displayio.Colorspace.RGB565_SWAPPED),
-#     x=COL_OFFSET,
-#     y=ROW_OFFSET
-#     ) 
-#  
-# main_group.append(face)
 
 from adafruit_bitmap_font import bitmap_font
 font_file = "fonts/LeagueSpartan-Bold-16.bdf"
@@ -228,11 +124,13 @@ minute_label.text = "{:0>2d}".format(time_now.tm_min)
 # gc_label.anchored_position = (display.width / 2+40, 110)
 # gc_label.text = "{}KB".format(gc.mem_free()/1024)
 
+info_label = label.Label(terminalio.FONT, color=0x00ff00, scale=2)
+info_label.anchor_point = (0.5, 0.5)
+info_label.anchored_position = (64, 64)
+info_label.text = "Time \nSyncing..."
+info_label.hidden = True
+info_label.background_color  = 0xff00ff
 
-
-main_group.append(hour_label)
-main_group.append(minute_label)
-# main_group.append(gc_label)
 
 WEEK_COLOR_NOW = 0xCCCCCC
 WEEK_COLOR_NOTNOW=0x444444
@@ -252,19 +150,88 @@ week_label[week_id].color = WEEK_COLOR_NOW
 # print(time_now.tm_wday)
 # print(week_id)
 
+main_group.append(hour_label)
+main_group.append(minute_label)
+# main_group.append(gc_label)
+main_group.append(info_label)
 mc.display.root_group = main_group
+mc.display.auto_refresh = False 
+mc.display.refresh()
+mc.display.brightness=1.0
+# syncTime()
 
-# sayTimeCN(2, 2) 
+time_now = time.localtime() 
 sayTimeCN(time_now.tm_hour, time_now.tm_min) 
-# display.refresh()  
+ 
 
 now = time.monotonic()
 old = now
  
 key=-1
 acceleration = mc.imu.acceleration
-#
 f_time_sayed=False
+
+
+
+def syncTime():
+    import wifi
+    print(wifi.radio.enabled)
+    wifi.radio.enabled = True
+    wifi.radio.start_station()
+    info_label.hidden = False
+    # Get wifi AP credentials from a settings.toml file
+    wifi_ssid = os.getenv("WIFI_SSID")
+    wifi_password = os.getenv("WIFI_PASSWORD")
+    info_label.hidden = False
+    mc.display.refresh()
+    if wifi_ssid is None:
+        print("WiFi credentials are kept in settings.toml, please add them there!")
+        raise ValueError("SSID not found in environment variables")
+    info_label.text = 'Time \nSyncing..'
+    mc.display.refresh()
+    wifi.radio.tx_power = 8.5
+    try:
+        wifi.radio.connect(wifi_ssid, wifi_password)
+        print("my IP addr:", wifi.radio.ipv4_address)
+    except Exception as e:
+        print(e)
+        info_label.hidden = True
+        return
+         
+
+    pool = socketpool.SocketPool(wifi.radio)
+    ntp = adafruit_ntp.NTP(pool, tz_offset=os.getenv("TIMEZONE"), cache_seconds=3600)
+
+    # NOTE: This changes the system time so make sure you aren't assuming that time
+    # doesn't jump.
+    
+    for i in range(3):
+        try:
+            rtc.RTC().datetime = ntp.datetime
+            info_label.text = 'OK'
+            mc.display.refresh()
+            break
+        except:
+            info_label.text = 'retry'
+            mc.display.refresh()
+            pass
+    time.sleep(0.5)
+    t =time.localtime()
+    hour_label.text = f'{t.tm_hour:02d}'
+    minute_label.text = f'{t.tm_min:02d}'
+    week_label[week_id].color = WEEK_COLOR_NOTNOW
+    week_label[time_now.tm_wday].color = WEEK_COLOR_NOW
+    weekid = time_now.tm_wday
+    info_label.hidden = True
+    mc.display.refresh()
+    wifi.radio.stop_station()
+    wifi.radio.enabled = False
+    gc.collect()
+    print(gc.mem_free())
+    return 
+
+
+
 while True:
     now =  time.monotonic()
     if (now-old) >= 10.0:
@@ -274,6 +241,7 @@ while True:
         gc.collect()
         hour_label.text = "{:0>2d}".format(time_now.tm_hour)
         minute_label.text = "{:0>2d}".format( time_now.tm_min)
+        mc.display.refresh()
 #         gc_label.text = "{}KB".format(gc.mem_free()/1024)
         
         if time_now.tm_wday != week_id:
@@ -282,6 +250,7 @@ while True:
             week_label[week_id].color = WEEK_COLOR_NOTNOW
             week_label[time_now.tm_wday].color = WEEK_COLOR_NOW
             weekid = time_now.tm_wday
+            mc.display.refresh()
             
         
         if time_now.tm_min==0:            
@@ -289,6 +258,7 @@ while True:
                 if f_time_sayed ==False:
                     f_time_sayed=True
                     sayTimeCN(time_now.tm_hour, time_now.tm_min)
+                    mc.display.refresh()
         else:
             if f_time_sayed:
                 f_time_sayed = False
@@ -314,9 +284,13 @@ while True:
         key=-1
         sayTimeCN(time_now.tm_hour, time_now.tm_min)
  
-    elif key==2 or key==1:
+    elif key==2:
         print('exit')
-        mc.exit() 
+        mc.exit()
+    
+    elif key==1:
+        key=-1
+        syncTime()
      
                 
     acceleration = mc.imu.acceleration
@@ -326,7 +300,6 @@ while True:
              
  
          
-
 
 
 

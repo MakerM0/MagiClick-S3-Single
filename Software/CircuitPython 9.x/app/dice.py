@@ -97,7 +97,7 @@ mc.display.root_group =splash
 mc.display.brightness=1.0   
         
 
-TICK_DICE = 1.0
+TICK_DICE = 0.5
 # 
 async def draw(dice):
     starttick=0.0
@@ -121,7 +121,7 @@ async def draw(dice):
         if dice.f_stop==True:
             dice.f_stop = False
           
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.04)
         if dice.f_destroy:
             break
         

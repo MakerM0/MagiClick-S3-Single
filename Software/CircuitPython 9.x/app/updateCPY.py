@@ -10,9 +10,7 @@ def updateUF2():
     microcontroller.on_next_reset(microcontroller.RunMode.UF2)
     microcontroller.reset()
     
-from adafruit_bitmap_font import bitmap_font
-font_file = "fonts/wenquanyi_13px.pcf"
-font = bitmap_font.load_font(font_file)
+ 
     
 # left key
 note = label.Label(font = terminalio.FONT,text = "  [ Update CPY ] \n\n\n  Left btn -> OK\nMiddle btn -> Quit", color = 0xF0f0FF,scale =1)

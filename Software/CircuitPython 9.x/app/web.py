@@ -33,8 +33,8 @@ WRAP_WIDTH = 64
 
 mc = MagiClick()
 mc.display.brightness=1.0 
-# fontFile = "fonts/Fontquan-XinYiGuanHeiTi-Regular.pcf"
-fontFile = "fonts/wenquanyi_13px.pcf"
+fontFile = "fonts/ChillRoundM-12.pcf"
+# fontFile = "fonts/wenquanyi_13px.pcf"
 
 font = bitmap_font.load_font(fontFile, Bitmap)
 
@@ -45,18 +45,18 @@ label = label.Label(font, text='', color=0x2ad5ff,background_color=0x0,scale=2)
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 mc.display.root_group = displayio.CIRCUITPYTHON_TERMINAL
 trytime=0 
-while not supervisor.runtime.usb_connected:    
-    print("""
-No USB connected
-Please insert USB
-
-
-    """)
-    print(5-trytime)
-    time.sleep(1.0)
-    trytime+=1
-    if trytime>=5:
-        mc.exit()
+# while not supervisor.runtime.usb_connected:    
+#     print("""
+# No USB connected
+# Please insert USB
+# 
+# 
+#     """)
+#     print(5-trytime)
+#     time.sleep(1.0)
+#     trytime+=1
+#     if trytime>=5:
+#         mc.exit()
 
 # Define the keyboard object
 keyboard = Keyboard(usb_hid.devices)
